@@ -11,29 +11,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idUser")
     private Integer idUser;
-
-    @Column(name = "Username")
-    private String username;
-
-    @Column(name = "Password")
-    private String password;
-
-    @Column(name = "Phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
-
-    @Column(name = "Email")
-    private String email;
-
-    @Column(name = "AccessLevel")
-    private String accessLevel;
+    @Column(name = "login", nullable = false)
+    private String login;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public User() {}
 
-    public User(String username, String password, String phone, String email, String accessLevel) {
-        this.username = username;
+    public User(String login, String password, String phone) {
+        this.login = login;
         this.password = password;
         this.phone = phone;
-        this.email = email;
-        this.accessLevel = accessLevel;
     }
 }
