@@ -2,6 +2,7 @@ package com.example.citizen.controller;
 
 import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
+import com.example.citizen.utils.LoginData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,22 +17,22 @@ public class UserController {
 
     @PostMapping("/authorization")
     @ResponseBody
-    public ResponseEntity<HttpStatus> authorization(Long phone, String password) {
-        boolean findUser = userService.findUser(phone, password);
+    public int authorization(@RequestBody LoginData loginData) {
+        boolean findUser = userService.findUser(loginData);
         if (findUser)
-            return new ResponseEntity<>(HttpStatus.OK);
+            return HttpStatus.OK.value();
         else
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return HttpStatus.FORBIDDEN.value();
 
     }
 
     @PostMapping("/registration")
     @ResponseBody
-    public ResponseEntity<HttpStatus> registration(User user) {
+    public int registration(@RequestBody User user) {
         if (user != null) {
             userService.save(user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return HttpStatus.OK.value();
         } else
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return HttpStatus.FORBIDDEN.value();
     }
 }

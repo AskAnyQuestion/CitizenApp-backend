@@ -2,6 +2,7 @@ package com.example.citizen.service;
 
 import com.example.citizen.model.User;
 import com.example.citizen.repository.UserRepository;
+import com.example.citizen.utils.LoginData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +18,13 @@ public class UserService {
         this.bCryptEncoder = new BCryptPasswordEncoder(12);
     }
 
-    public boolean findUser(Long phone, String password) {
-        User user = userRepository.findByPhone(phone).orElseThrow(() -> null);
+    public boolean findUser(LoginData loginData) {
+        Long phone = loginData.getPhone();
+        String password = loginData.getPassword();
+        User user = userRepository.findUserByPhone(phone);
         if (user != null) {
             String bdPass = user.getPassword();
-            String currentPass = bCryptEncoder.encode(password);
-            return bCryptEncoder.matches(bdPass, currentPass);
+            return bCryptEncoder.matches(password, bdPass);
         }
         return false;
     }

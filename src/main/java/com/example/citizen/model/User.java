@@ -12,7 +12,7 @@ public class User {
     @Column(name = "idUser")
     private Integer idUser;
     @Column(name = "phone", nullable = false)
-    private String phone;
+    private Long phone;
     @Column(name = "login", nullable = false)
     private String login;
     @Column(name = "password", nullable = false)
@@ -20,7 +20,7 @@ public class User {
 
     public User() {}
 
-    public User(String login, String password, String phone) {
+    public User(String login, String password, Long phone) {
         this.login = login;
         this.password = password;
         this.phone = phone;
