@@ -2,9 +2,8 @@ package com.example.citizen.controller;
 
 import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
-import com.example.citizen.utils.LoginData;
+import com.example.citizen.data.LoginData;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +17,10 @@ public class UserController {
     @PostMapping("/authorization")
     @ResponseBody
     public int authorization(@RequestBody LoginData loginData) {
-        boolean findUser = userService.findUser(loginData);
-        if (findUser)
+        if (userService.findUser(loginData))
             return HttpStatus.OK.value();
         else
-            return HttpStatus.FORBIDDEN.value();
+            return HttpStatus.INTERNAL_SERVER_ERROR.value();
 
     }
 
@@ -33,6 +31,6 @@ public class UserController {
             userService.save(user);
             return HttpStatus.OK.value();
         } else
-            return HttpStatus.FORBIDDEN.value();
+            return HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 }

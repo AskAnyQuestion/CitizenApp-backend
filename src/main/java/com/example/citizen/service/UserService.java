@@ -2,9 +2,8 @@ package com.example.citizen.service;
 
 import com.example.citizen.model.User;
 import com.example.citizen.repository.UserRepository;
-import com.example.citizen.utils.LoginData;
+import com.example.citizen.data.LoginData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.citizen.utils;
+package com.example.citizen.data;
 
 public class LoginData {
     private Long phone;

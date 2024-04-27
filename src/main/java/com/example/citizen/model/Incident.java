@@ -1,34 +1,28 @@
 package com.example.citizen.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Data
 @Entity
 public class Incident {
     @Id
-    @Column(name = "idIncident")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idIncident;
-
     @ManyToOne
     @JoinColumn(name = "idUser", foreignKey = @ForeignKey(name = "User"))
     private User user;
-
-    @Column(name = "EventDescription")
+    @Column(name = "eventDescription")
     private String eventDescription;
-
-    @Column(name = "EventLocation")
-    private String eventLocation;
-
-    @Column(name = "EventTime")
-    private Time eventTime;
-
-    @Column(name = "EventData")
-    private Date eventData;
-
-    @Column(name = "Path")
-    private String path;
+    @Column(name = "eventTime")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp eventTime;
+    @Column(name = "latitude")
+    private Double latitude;
+    @Column(name = "longitude")
+    private Double longitude;
 }
