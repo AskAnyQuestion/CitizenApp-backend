@@ -1,6 +1,5 @@
 package com.example.citizen.controller;
 
-import com.example.citizen.data.IncidentData;
 import com.example.citizen.model.Incident;
 import com.example.citizen.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,9 @@ public class IncidentController {
 
     @PostMapping("/add")
     @ResponseBody
-    public int add(/*@RequestBody Incident incident, */@RequestPart("files") List<MultipartFile> files) {
+    public int add(@RequestPart ("incident") Incident incident,
+                   @RequestPart ("files") List<MultipartFile> files) {
+        incidentService.save(incident);
         return HttpStatus.OK.value();
     }
 }

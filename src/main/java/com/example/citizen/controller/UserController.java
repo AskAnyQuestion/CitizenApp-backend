@@ -27,10 +27,7 @@ public class UserController {
     @PostMapping("/registration")
     @ResponseBody
     public int registration(@RequestBody User user) {
-        if (user != null) {
-            userService.save(user);
-            return HttpStatus.OK.value();
-        } else
-            return HttpStatus.INTERNAL_SERVER_ERROR.value();
+        userService.save(user);
+        return HttpStatus.OK.value();
     }
 }

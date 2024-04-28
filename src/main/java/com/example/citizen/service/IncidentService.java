@@ -15,6 +15,7 @@ public class IncidentService {
     }
 
     public void save(Incident incident) {
+        incident.setPath("/b/");
         incidentRepository.save(incident);
     }
 }

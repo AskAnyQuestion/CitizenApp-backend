@@ -2,7 +2,6 @@ package com.example.citizen.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -25,4 +24,7 @@ public class Incident {
     private Double latitude;
     @Column(name = "longitude")
     private Double longitude;
+    @Column(name = "path")
+    private String path;
 }
+
