@@ -1,34 +1,32 @@
 package com.example.citizen.data;
 
 import com.example.citizen.model.Incident;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
+import org.springframework.core.io.FileSystemResource;
 
 public class IncidentData {
     private Incident incident;
-    private ArrayList<MultipartFile> list;
+    private FileSystemResource resource;
 
     public IncidentData() {}
 
-    public IncidentData(Incident incident, ArrayList <MultipartFile> list) {
+    public IncidentData(Incident incident, FileSystemResource resource) {
         this.incident = incident;
-        this.list = list;
+        this.resource = resource;
     }
 
     public void setIncident(Incident incident) {
         this.incident = incident;
     }
 
-    public void setList(ArrayList<MultipartFile> list) {
-        this.list = list;
+    public void setResource(FileSystemResource resource) {
+        this.resource = resource;
     }
 
     public Incident getIncident() {
         return incident;
     }
 
-    public ArrayList<MultipartFile> getList() {
-        return list;
+    public FileSystemResource getResource() {
+        return resource;
     }
 }

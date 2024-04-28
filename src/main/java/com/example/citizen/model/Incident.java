@@ -24,7 +24,5 @@ public class Incident {
     private Double latitude;
     @Column(name = "longitude")
     private Double longitude;
-    @Column(name = "path")
-    private String path;
 }
 

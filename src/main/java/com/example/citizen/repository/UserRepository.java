@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository <User, Long> {
-
     /* Сохранение пользователя */
     @Override
     @SuppressWarnings("unchecked")
@@ -19,4 +18,8 @@ public interface UserRepository extends JpaRepository <User, Long> {
     @Query(value = "select p from User p where p.phone=:phone")
     User findUserByPhone(Long phone);
 
+    /* Поиск id по логину */
+    @Transactional
+    @Query(value = "select p.idUser from User p where p.login=:login")
+    int findId(String login);
 }
