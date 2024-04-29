@@ -5,15 +5,19 @@ import com.example.citizen.model.User;
 import com.example.citizen.repository.IncidentRepository;
 import com.example.citizen.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class IncidentService {
@@ -27,7 +31,7 @@ public class IncidentService {
         this.userRepository = userRepository;
     }
 
-    public List <Incident> getIncidents() {
+    public List<Incident> getIncidents() {
         return incidentRepository.findAll();
     }
 
@@ -43,7 +47,7 @@ public class IncidentService {
     }
 
     public void createMaterialIncident(int id, List<MultipartFile> files) {
-        Path path = Paths.get("./incidents/" + id);
+        Path path = Paths.get("./incidents/id/" + id);
         try {
             if (!Files.exists(path)) {
                 Files.createDirectory(path);
@@ -56,6 +60,40 @@ public class IncidentService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Resource getMaterials() throws Exception {
+        Path zipFile = Paths.get("./incidents/resources.zip");
+        Path sourcePath = Paths.get("./incidents/id/");
+        File source = new File(sourcePath.toUri());
+        ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(zipFile.toFile()));
+        addFilesToZip("", source, stream);
+        stream.close();
+        InputStream inputStream = new FileInputStream(zipFile.toFile());
+        return new InputStreamResource(inputStream);
+    }
+
+    public Resource getMaterial(String id) throws Exception {
+        Path zipFile = Paths.get("./incidents/id/" + id + "/" + id + ".zip");
+        Path sourcePath = Paths.get("./incidents/id/" + id);
+        File source = new File(sourcePath.toUri());
+        ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(zipFile.toFile()));
+        addFilesToZip("", source, stream);
+        stream.close();
+        InputStream inputStream = new FileInputStream(zipFile.toFile());
+        return new InputStreamResource(inputStream);
+    }
+
+    private void addFilesToZip(String prefix, File folder, ZipOutputStream zos) throws IOException {
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
+            if (file.isDirectory()) {
+                addFilesToZip(prefix + file.getName() + "/", file, zos);
+            } else {
+                zos.putNextEntry(new ZipEntry(prefix + file.getName()));
+                zos.write(Files.readAllBytes(file.toPath()));
+                zos.closeEntry();
+            }
         }
     }
 }
