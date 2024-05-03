@@ -17,7 +17,8 @@ public class User {
     private String login;
     @Column(name = "password", nullable = false)
     private String password;
-
+    @Column(name = "ipv4", nullable = false)
+    private String ipv4;
     public User() {}
 
     public User(String login, String password, Long phone) {
