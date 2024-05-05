@@ -32,5 +32,10 @@ public class UserService {
          user.setPassword(hash);
          userRepository.save(user);
     }
+    public void update (User user) {
+        User bdUser = userRepository.findUser(user.getLogin(), user.getPhone());
+        bdUser.setToken(user.getToken());
+        userRepository.updateUser(bdUser.getIdUser(), bdUser.getToken());
+    }
 
 }

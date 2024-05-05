@@ -12,6 +12,7 @@ public interface IncidentRepository extends JpaRepository <Incident, Long> {
     @Override
     @SuppressWarnings("unchecked")
     Incident save(Incident user);
+    /* Получить все инциденты */
     @Override
     List<Incident> findAll();
 

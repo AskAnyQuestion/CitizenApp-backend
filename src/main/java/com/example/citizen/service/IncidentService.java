@@ -5,7 +5,6 @@ import com.example.citizen.model.User;
 import com.example.citizen.repository.IncidentRepository;
 import com.example.citizen.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -35,15 +34,14 @@ public class IncidentService {
         return incidentRepository.findAll();
     }
 
-    public void save(Incident incident, List<MultipartFile> files) {
+    public User save(Incident incident, List<MultipartFile> files) {
         User user = incident.getUser();
-        String login = user.getLogin();
-        int userId = userRepository.findId(login);
-        user.setIdUser(userId);
+        user = userRepository.findUser(user.getLogin(), user.getPhone());
         incident.setUser(user);
         incidentRepository.save(incident);
         int incidentId = incident.getIdIncident();
         createMaterialIncident(incidentId, files);
+        return user;
     }
 
     public void createMaterialIncident(int id, List<MultipartFile> files) {

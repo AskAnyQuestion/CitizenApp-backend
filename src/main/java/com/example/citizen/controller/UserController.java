@@ -30,4 +30,11 @@ public class UserController {
         userService.save(user);
         return HttpStatus.OK.value();
     }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public int update(@RequestBody User user) {
+        userService.update(user);
+        return HttpStatus.OK.value();
+    }
 }

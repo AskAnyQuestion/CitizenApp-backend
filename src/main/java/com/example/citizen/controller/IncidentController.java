@@ -1,7 +1,9 @@
 package com.example.citizen.controller;
 
 import com.example.citizen.model.Incident;
+import com.example.citizen.model.User;
 import com.example.citizen.service.IncidentService;
+import com.example.citizen.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,15 @@ import java.util.List;
 public class IncidentController {
     @Autowired
     IncidentService incidentService;
+    @Autowired
+    NotificationService notificationService;
 
     @PostMapping("/add")
     @ResponseBody
     public int add(@RequestPart("incident") Incident incident,
                    @RequestPart("files") List<MultipartFile> files) {
-        incidentService.save(incident, files);
+        User user = incidentService.save(incident, files);
+        notificationService.save(incident, user);
         return HttpStatus.OK.value();
     }
 
@@ -42,5 +47,4 @@ public class IncidentController {
     public Resource materials() throws Exception {
         return incidentService.getMaterials();
     }
-
 }
