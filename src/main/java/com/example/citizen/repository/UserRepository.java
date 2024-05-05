@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository <User, Long> {
     /* Сохранение пользователя */
@@ -28,4 +30,8 @@ public interface UserRepository extends JpaRepository <User, Long> {
     @Modifying
     @Query(value = "update User u set u.token=:token where u.id=:id")
     void updateUser(Integer id, String token);
+
+    @Transactional
+    @Query(value = "select p.token from User p where p.idUser <> :idUser")
+    List<String> findTokens(int idUser);
 }

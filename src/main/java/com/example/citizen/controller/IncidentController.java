@@ -2,8 +2,10 @@ package com.example.citizen.controller;
 
 import com.example.citizen.model.Incident;
 import com.example.citizen.model.User;
+import com.example.citizen.service.FirebaseMessagingService;
 import com.example.citizen.service.IncidentService;
 import com.example.citizen.service.NotificationService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,17 @@ public class IncidentController {
     IncidentService incidentService;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    FirebaseMessagingService firebaseMessagingService;
 
     @PostMapping("/add")
     @ResponseBody
+    @Deprecated
     public int add(@RequestPart("incident") Incident incident,
-                   @RequestPart("files") List<MultipartFile> files) {
+                   @RequestPart("files") List<MultipartFile> files) throws FirebaseMessagingException {
         User user = incidentService.save(incident, files);
         notificationService.save(incident, user);
+        firebaseMessagingService.sendNotification(user.getIdUser(), incident);
         return HttpStatus.OK.value();
     }
 
