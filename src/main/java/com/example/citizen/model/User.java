@@ -27,11 +27,4 @@ public class User {
     @CollectionTable(name = "notifications")
     private List<Notification> notifications = new ArrayList<>();
     public User() {}
-
-    public User(String login, String password, Long phone, String token) {
-        this.login = login;
-        this.password = password;
-        this.phone = phone;
-        this.token = token;
-    }
 }

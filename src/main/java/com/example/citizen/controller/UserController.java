@@ -1,29 +1,28 @@
 package com.example.citizen.controller;
 
-import com.example.citizen.data.NotificationData;
+import com.example.citizen.data.UserData;
 import com.example.citizen.model.Notification;
 import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
 import com.example.citizen.data.LoginData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-public class UserController {
-    private final UserService userService;
+import java.util.List;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+@RestController
+@RequestMapping("/user")
+public class UserController {
+    @Autowired
+    UserService userService;
 
     @PostMapping("/authorization")
     @ResponseBody
     public int authorization(@RequestBody LoginData loginData) {
         if (userService.findUser(loginData))
             return HttpStatus.OK.value();
-        else
-            return HttpStatus.INTERNAL_SERVER_ERROR.value();
-
+        return HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 
     @PostMapping("/registration")
@@ -40,12 +39,10 @@ public class UserController {
         return HttpStatus.OK.value();
     }
 
-    @PostMapping("/notification")
+    @PostMapping("/get")
     @ResponseBody
-    public int add(@RequestBody NotificationData notificationData) {
-        int notificationId = notificationData.getNotificationId();
-        int userId = notificationData.getUserId();
-        userService.addNotification(userId, notificationId);
-        return HttpStatus.OK.value();
+    public List<Notification> get(@RequestBody UserData userData) {
+        User user = userService.getUser(userData);
+        return user.getNotifications();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.citizen.service;
 
-import com.example.citizen.model.Notification;
+import com.example.citizen.data.UserData;
 import com.example.citizen.model.User;
 import com.example.citizen.repository.NotificationRepository;
 import com.example.citizen.repository.UserRepository;
@@ -8,9 +8,6 @@ import com.example.citizen.data.LoginData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -34,6 +31,11 @@ public class UserService {
         }
         return false;
     }
+
+    public User getUser (UserData userData) {
+        return userRepository.findUser(userData.getLogin(), userData.getPhone());
+    }
+
     public void save (User user) {
          String hash = bCryptEncoder.encode(user.getPassword());
          user.setPassword(hash);
@@ -45,13 +47,5 @@ public class UserService {
         userRepository.updateUserByToken(bdUser.getIdUser(), bdUser.getToken());
     }
 
-    public void addNotification(int userId, int notificationId) {
-        User user = userRepository.getUserById(userId);
-        Notification notification =  notificationRepository.getNotificationById(notificationId);
-        List<Notification> list = user.getNotifications();
-        list.add(notification);
-        user.setNotifications(list);
-        User u = userRepository.save(user);
-        System.out.println(u);
-    }
+
 }
