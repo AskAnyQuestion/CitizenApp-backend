@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LoginData {
-    private Long phone;
-    private String password;
+public class NotificationData {
+    private int userId;
+    private int notificationId;
 }

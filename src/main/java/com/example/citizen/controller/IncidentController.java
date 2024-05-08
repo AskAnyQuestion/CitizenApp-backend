@@ -1,6 +1,7 @@
 package com.example.citizen.controller;
 
 import com.example.citizen.model.Incident;
+import com.example.citizen.model.Notification;
 import com.example.citizen.model.User;
 import com.example.citizen.service.FirebaseMessagingService;
 import com.example.citizen.service.IncidentService;
@@ -31,8 +32,8 @@ public class IncidentController {
     public int add(@RequestPart("incident") Incident incident,
                    @RequestPart("files") List<MultipartFile> files) throws FirebaseMessagingException {
         User user = incidentService.save(incident, files);
-        notificationService.save(incident, user);
-        firebaseMessagingService.sendNotification(user.getIdUser(), incident);
+        Notification notification = notificationService.save(incident, user);
+        firebaseMessagingService.sendNotification(user.getIdUser(), notification.getIdNotification(), incident);
         return HttpStatus.OK.value();
     }
 

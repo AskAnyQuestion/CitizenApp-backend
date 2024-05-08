@@ -1,5 +1,7 @@
 package com.example.citizen.controller;
 
+import com.example.citizen.data.NotificationData;
+import com.example.citizen.model.Notification;
 import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
 import com.example.citizen.data.LoginData;
@@ -35,6 +37,15 @@ public class UserController {
     @ResponseBody
     public int update(@RequestBody User user) {
         userService.update(user);
+        return HttpStatus.OK.value();
+    }
+
+    @PostMapping("/notification")
+    @ResponseBody
+    public int add(@RequestBody NotificationData notificationData) {
+        int notificationId = notificationData.getNotificationId();
+        int userId = notificationData.getUserId();
+        userService.addNotification(userId, notificationId);
         return HttpStatus.OK.value();
     }
 }

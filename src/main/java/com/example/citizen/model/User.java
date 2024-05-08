@@ -3,6 +3,8 @@ package com.example.citizen.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,6 +23,9 @@ public class User {
     private String ipv4;
     @Column(name = "token", nullable = false)
     private String token;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @CollectionTable(name = "notifications")
+    private List<Notification> notifications = new ArrayList<>();
     public User() {}
 
     public User(String login, String password, Long phone, String token) {

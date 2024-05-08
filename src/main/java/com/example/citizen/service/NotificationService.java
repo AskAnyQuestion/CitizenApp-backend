@@ -8,8 +8,6 @@ import com.example.citizen.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class NotificationService {
     @Autowired
@@ -22,9 +20,8 @@ public class NotificationService {
         this.userRepository = userRepository;
     }
 
-    public void save(Incident incident, User user) {
+    public Notification save(Incident incident, User user) {
         Notification notification = new Notification(incident, user);
-        notificationRepository.save(notification);
-
+        return notificationRepository.save(notification);
     }
 }
