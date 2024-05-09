@@ -20,9 +20,9 @@ public class FirebaseMessagingService {
     @Deprecated
     public void sendNotification(int fromId, int notificationId, Incident incident) throws FirebaseMessagingException {
         List<String> registrationTokens = userRepository.findTokens(fromId);
-        registrationTokens.add("fCHaV58hRU6RjR20j1N1rK:APA91bEDuG43XXfYB2uFZ" +
-                "dsv0DxdeDZCXvk7m6idKoPfg7a-qy4Ea6EZPsZXEbmprH8MXZK4X5Gyr_iL" +
-                "jGKYmBBYG9XiwJJZFA27exO1W3mGr9TzGsFJxGWe2oVebzIoY1h81yUC2XSX");
+        registrationTokens.add("dgFEiM4_SZ2E1bbFi1Q_LY:APA91bFv-QnYDPF2EMwSN" +
+                "0Wo9wQ68ht4fZoKEWlBtzdL7IVBJiGisEcaSmUf0QPunpnT9H003g7mjtFt" +
+                "trmuJXlUjV1BlQqDjFMGB3Hepl6zzIvfJ9BeLAnMzS6bTLcaXjpHO92FoyQF");
         String longitude = String.valueOf(incident.getLongitude());
         String latitude = String.valueOf(incident.getLatitude());
         String event = incident.getEventDescription();

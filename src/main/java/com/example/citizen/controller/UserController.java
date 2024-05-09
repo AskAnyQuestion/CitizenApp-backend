@@ -1,6 +1,7 @@
 package com.example.citizen.controller;
 
 import com.example.citizen.data.UserData;
+import com.example.citizen.model.Incident;
 import com.example.citizen.model.Notification;
 import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,8 +43,14 @@ public class UserController {
 
     @PostMapping("/get")
     @ResponseBody
-    public List<Notification> get(@RequestBody UserData userData) {
+    public List<Incident> get(@RequestBody UserData userData) {
         User user = userService.getUser(userData);
-        return user.getNotifications();
+        List <Incident> incidentList = new ArrayList<>();
+        for (Notification notification: user.getNotifications())
+        {
+            Incident incident = notification.getIncident();
+            incidentList.add(incident);
+        }
+        return incidentList;
     }
 }
