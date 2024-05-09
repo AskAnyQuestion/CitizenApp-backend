@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserService {
     BCryptPasswordEncoder bCryptEncoder;
     UserRepository userRepository;
     NotificationRepository notificationRepository;
+
     @Autowired
     public UserService(UserRepository userRepository, NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
@@ -32,20 +35,24 @@ public class UserService {
         return false;
     }
 
-    public User getUser (UserData userData) {
+    public User getUser(UserData userData) {
         return userRepository.findUser(userData.getLogin(), userData.getPhone());
     }
 
-    public void save (User user) {
-         String hash = bCryptEncoder.encode(user.getPassword());
-         user.setPassword(hash);
-         userRepository.save(user);
+    public void save(User user) {
+        String hash = bCryptEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        userRepository.save(user);
     }
-    public void update (User user) {
+
+    public void update(User user) {
         User bdUser = userRepository.findUser(user.getLogin(), user.getPhone());
         bdUser.setToken(user.getToken());
         userRepository.updateUserByToken(bdUser.getIdUser(), bdUser.getToken());
     }
 
-
+    public void delete(User user) {
+        user.getNotifications().clear();
+        save(user);
+    }
 }

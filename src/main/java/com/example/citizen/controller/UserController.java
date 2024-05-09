@@ -45,12 +45,20 @@ public class UserController {
     @ResponseBody
     public List<Incident> get(@RequestBody UserData userData) {
         User user = userService.getUser(userData);
-        List <Incident> incidentList = new ArrayList<>();
-        for (Notification notification: user.getNotifications())
-        {
+        List<Incident> incidentList = new ArrayList<>();
+        for (Notification notification : user.getNotifications()) {
             Incident incident = notification.getIncident();
             incidentList.add(incident);
         }
         return incidentList;
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public int delete(@RequestBody UserData userData) {
+        User user = userService.getUser(userData);
+        if (user != null)
+            userService.delete(user);
+        return HttpStatus.OK.value();
     }
 }
