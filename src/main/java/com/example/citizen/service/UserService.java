@@ -39,9 +39,11 @@ public class UserService {
         return userRepository.findUser(userData.getLogin(), userData.getPhone());
     }
 
-    public void save(User user) {
-        String hash = bCryptEncoder.encode(user.getPassword());
-        user.setPassword(hash);
+    public void save(User user, boolean isHashed) {
+        if (!isHashed) {
+            String hash = bCryptEncoder.encode(user.getPassword());
+            user.setPassword(hash);
+        }
         userRepository.save(user);
     }
 
@@ -53,6 +55,6 @@ public class UserService {
 
     public void delete(User user) {
         user.getNotifications().clear();
-        save(user);
+        save(user, true);
     }
 }

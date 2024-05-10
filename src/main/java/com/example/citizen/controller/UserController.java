@@ -7,6 +7,7 @@ import com.example.citizen.model.User;
 import com.example.citizen.service.UserService;
 import com.example.citizen.data.LoginData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
     @PostMapping("/registration")
     @ResponseBody
     public int registration(@RequestBody User user) {
-        userService.save(user);
+        userService.save(user, false);
         return HttpStatus.OK.value();
     }
 
@@ -59,6 +60,17 @@ public class UserController {
         User user = userService.getUser(userData);
         if (user != null)
             userService.delete(user);
+        return HttpStatus.OK.value();
+    }
+
+    @PostMapping("/updates")
+    @ResponseBody
+    public int update(@RequestParam String oldLogin, @RequestParam Long oldPhone,
+                      @RequestParam String newLogin, @RequestParam Long newPhone) {
+        User user = userService.getUser(new UserData(oldLogin, oldPhone));
+        user.setLogin(newLogin);
+        user.setPhone(newPhone);
+        userService.save(user, true);
         return HttpStatus.OK.value();
     }
 }
