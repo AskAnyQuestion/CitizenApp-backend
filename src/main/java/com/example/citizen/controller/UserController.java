@@ -1,5 +1,6 @@
 package com.example.citizen.controller;
 
+import com.example.citizen.data.UpdateData;
 import com.example.citizen.data.UserData;
 import com.example.citizen.model.Incident;
 import com.example.citizen.model.Notification;
@@ -65,11 +66,10 @@ public class UserController {
 
     @PostMapping("/updates")
     @ResponseBody
-    public int update(@RequestParam String oldLogin, @RequestParam Long oldPhone,
-                      @RequestParam String newLogin, @RequestParam Long newPhone) {
-        User user = userService.getUser(new UserData(oldLogin, oldPhone));
-        user.setLogin(newLogin);
-        user.setPhone(newPhone);
+    public int updates(@RequestBody UpdateData updateData) {
+        User user = userService.getUser(new UserData(updateData.getOldLogin(), updateData.getOldPhone()));
+        user.setLogin(updateData.getNewLogin());
+        user.setPhone(updateData.getNewPhone());
         userService.save(user, true);
         return HttpStatus.OK.value();
     }
