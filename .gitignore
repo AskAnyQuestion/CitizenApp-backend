@@ -33,5 +33,6 @@ build/
 .vscode/
 
 ### Config ###
+news/
 incidents/
 src/main/resources

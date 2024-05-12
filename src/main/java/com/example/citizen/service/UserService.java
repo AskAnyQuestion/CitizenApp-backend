@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class UserService {
     BCryptPasswordEncoder bCryptEncoder;
@@ -21,7 +19,7 @@ public class UserService {
     public UserService(UserRepository userRepository, NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;
-        this.bCryptEncoder = new BCryptPasswordEncoder(12);
+        this.bCryptEncoder = new BCryptPasswordEncoder(10);
     }
 
     public boolean findUser(LoginData loginData) {
