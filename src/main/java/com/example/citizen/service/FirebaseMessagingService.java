@@ -20,9 +20,6 @@ public class FirebaseMessagingService {
     @Deprecated
     public void sendNotification(int fromId, int notificationId, Incident incident) throws FirebaseMessagingException {
         List<String> registrationTokens = userRepository.findTokens(fromId);
-        registrationTokens.add("dgFEiM4_SZ2E1bbFi1Q_LY:APA91bFv-QnYDPF2EMwSN" +
-                "0Wo9wQ68ht4fZoKEWlBtzdL7IVBJiGisEcaSmUf0QPunpnT9H003g7mjtFt" +
-                "trmuJXlUjV1BlQqDjFMGB3Hepl6zzIvfJ9BeLAnMzS6bTLcaXjpHO92FoyQF");
         String longitude = String.valueOf(incident.getLongitude());
         String latitude = String.valueOf(incident.getLatitude());
         String event = incident.getEventDescription();
@@ -30,22 +27,24 @@ public class FirebaseMessagingService {
         List<String> failedTokens = new ArrayList<>();
         for (String token : registrationTokens) {
             User user = userRepository.getUserByToken(token);
-            String userId = String.valueOf(user.getIdUser());
-            String notiId = String.valueOf(notificationId);
-            MulticastMessage message = MulticastMessage.builder()
-                    .putData("longitude", longitude)
-                    .putData("latitude", latitude)
-                    .putData("event", event)
-                    .putData("userId", userId)
-                    .putData("notificationId", notiId)
-                    .addToken(token)
-                    .build();
-            BatchResponse response = firebaseMessaging.sendMulticast(message);
-            if (response.getFailureCount() > 0) {
-                List<SendResponse> responses = response.getResponses();
-                for (int i = 0; i < responses.size(); i++)
-                    if (!responses.get(i).isSuccessful())
-                        failedTokens.add(registrationTokens.get(i));
+            if (user != null) {
+                String userId = String.valueOf(user.getIdUser());
+                String notiId = String.valueOf(notificationId);
+                MulticastMessage message = MulticastMessage.builder()
+                        .putData("longitude", longitude)
+                        .putData("latitude", latitude)
+                        .putData("event", event)
+                        .putData("userId", userId)
+                        .putData("notificationId", notiId)
+                        .addToken(token)
+                        .build();
+                BatchResponse response = firebaseMessaging.sendMulticast(message);
+                if (response.getFailureCount() > 0) {
+                    List<SendResponse> responses = response.getResponses();
+                    for (int i = 0; i < responses.size(); i++)
+                        if (!responses.get(i).isSuccessful())
+                            failedTokens.add(registrationTokens.get(i));
+                }
             }
         }
         if (failedTokens.size() > 0)

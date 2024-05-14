@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 public class NewsLoader implements CommandLineRunner {
     @Autowired
     private NewsService newsService;
-
     public NewsLoader(NewsService newsService) {
         this.newsService = newsService;
     }
@@ -23,8 +22,17 @@ public class NewsLoader implements CommandLineRunner {
         news.setLatitude(57.216746);
         news.setLongitude(41.932818);
         news.setEventTime(new Timestamp(System.currentTimeMillis()));
-        news.setDescription("6 вооружённых людей устроили стрельбу возле автовокзала");
-        news.setAddition("Медицинский персонал подтверждает, что общее число людей 6");
+        news.setDescription("2 вооружённых людей устроили стрельбу возле частных домов");
+        news.setAddition("Медицинский персонал подтверждает, что общее число погибших людей достигло 3 человек");
         newsService.save(news);
+
+        News newsTwo = new News();
+        newsTwo.setIdNews(2);
+        newsTwo.setLatitude(57.214255);
+        newsTwo.setLongitude(41.958810);
+        newsTwo.setEventTime(new Timestamp(System.currentTimeMillis()));
+        newsTwo.setDescription("Хулиганы похитили молодую женщину");
+        newsTwo.setAddition("Настоящее время ведутся поиски");
+        newsService.save(newsTwo);
     }
 }

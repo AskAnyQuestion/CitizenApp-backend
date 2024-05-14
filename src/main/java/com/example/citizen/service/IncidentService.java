@@ -31,7 +31,7 @@ public class IncidentService {
     }
 
     public List<Incident> getIncidents() {
-        return incidentRepository.findAll();
+        return incidentRepository.find();
     }
 
     public User save(Incident incident, List<MultipartFile> files) {
@@ -42,6 +42,10 @@ public class IncidentService {
         int incidentId = incident.getIdIncident();
         createMaterialIncident(incidentId, files);
         return user;
+    }
+
+    public void save(Incident incident) {
+        incidentRepository.save(incident);
     }
 
     public void createMaterialIncident(int id, List<MultipartFile> files) {
